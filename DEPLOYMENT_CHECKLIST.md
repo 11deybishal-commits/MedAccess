@@ -53,18 +53,34 @@ git push -u origin main
 
 **Replace `YOUR_USERNAME` with your GitHub username!**
 
-### 2. Deploy on Render (3 minutes)
+### 2. Deploy Frontend on Vercel and Backend on Render (recommended)
 
-**Option A: Auto-Deploy (Recommended)**
+**Backend (Render)**
 
-1. Go to [render.com](https://render.com)
-2. Sign up with GitHub
-3. Create "Web Service" for backend
-4. Create "Static Site" for frontend
-5. Add environment variables
-6. Click "Deploy"
+1. Go to [render.com](https://render.com) and sign in with GitHub
+2. Create a "Web Service" → connect `11deybishal-commits/MedAccess`
+3. Root directory: `backend`
+4. Build command: `npm install`
+5. Start command: `node server.js`
+6. Add environment variables (see notes below)
+7. Click "Create Web Service" and copy the backend URL (e.g., `https://medaccess-r15r.onrender.com`)
 
-**That's it! Your app is live!**
+**Frontend (Vercel)**
+
+1. Go to [vercel.com](https://vercel.com) and import `11deybishal-commits/MedAccess`
+2. Root directory: `frontend`
+3. Build Command: `npm run build`
+4. Output Directory: `dist`
+5. Add Environment Variables:
+	```
+	VITE_API_URL=https://medaccess-r15r.onrender.com/api
+	VITE_GOOGLE_MAPS_API_KEY=<your_google_api_key>
+	```
+6. Deploy and copy the frontend URL
+
+**After both are deployed:**
+ - Update the backend `FRONTEND_URL` (Render env var) to the Vercel frontend URL you received
+
 
 ---
 

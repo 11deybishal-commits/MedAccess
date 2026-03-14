@@ -72,21 +72,22 @@ git push -u origin main
 5. Click "Create Web Service"
 6. **Copy the backend URL** (e.g., `https://medaccess-backend.onrender.com`)
 
-**Frontend Deployment:**
+**Frontend Deployment (Vercel recommended):**
 
-1. On Render, click "New +" → "Static Site"
-2. Connect your GitHub repository
+1. Go to [vercel.com](https://vercel.com) and sign in with GitHub
+2. Click "New Project" → "Import Project" → select `11deybishal-commits/MedAccess`
 3. Configure:
-   - **Name:** `medaccess-frontend`
-   - **Build Command:** `cd frontend && npm install && npm run build`
-   - **Publish Directory:** `frontend/dist`
-4. Add Environment Variable:
+   - **Framework:** Vite
+   - **Root Directory:** `frontend`
+   - **Build Command:** `npm run build`
+   - **Output Directory:** `dist`
+4. Add Environment Variables in the Vercel project settings:
    ```
-   VITE_API_URL=<your_backend_url>/api
-   VITE_GOOGLE_MAPS_API_KEY=<your_api_key>
+   VITE_API_URL=https://medaccess-r15r.onrender.com/api
+   VITE_GOOGLE_MAPS_API_KEY=<your_google_api_key>
    ```
-5. Click "Create Static Site"
-6. **Your site will be live!** Visit the deployed URL
+5. Click "Deploy" — Vercel will provide the frontend URL (e.g., `https://medaccess-frontend.vercel.app`).
+6. Once Vercel finishes, copy the frontend URL and set the backend `FRONTEND_URL` environment variable to that value in Render.
 
 ---
 
