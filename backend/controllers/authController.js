@@ -11,14 +11,18 @@ const generateToken = (id, role) => {
 export const register = asyncHandler(async (req, res) => {
   const { name, email, password, city, phone } = req.body;
 
+  console.log('[AUTH] Register attempt for:', email);
+
   // Validation
   if (!name || !email || !password) {
+    console.log('[AUTH] Missing required fields for registration');
     return res.status(400).json({ message: 'Name, email, and password are required' });
   }
 
   // Check if user exists
   let user = await User.findOne({ email });
   if (user) {
+    console.log('[AUTH] User already exists:', email);
     return res.status(400).json({ message: 'User already exists' });
   }
 
@@ -31,9 +35,15 @@ export const register = asyncHandler(async (req, res) => {
     phone: phone || '',
   });
 
+  console.log('[AUTH] Saving new user:', email);
+
   await user.save();
 
+  console.log('[AUTH] User saved, generating token');
+
   const token = generateToken(user._id, user.role);
+
+  console.log('[AUTH] Registration successful for:', email);
 
   res.status(201).json({
     success: true,
@@ -51,24 +61,35 @@ export const register = asyncHandler(async (req, res) => {
 export const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
+  console.log('[AUTH] Login attempt for:', email);
+
   // Validation
   if (!email || !password) {
+    console.log('[AUTH] Missing email or password');
     return res.status(400).json({ message: 'Email and password are required' });
   }
 
   // Find user
   const user = await User.findOne({ email });
   if (!user) {
+    console.log('[AUTH] User not found:', email);
     return res.status(401).json({ message: 'Invalid email or password' });
   }
+
+  console.log('[AUTH] User found, checking password');
 
   // Check password
   const isPasswordValid = await user.matchPassword(password);
   if (!isPasswordValid) {
+    console.log('[AUTH] Invalid password for user:', email);
     return res.status(401).json({ message: 'Invalid email or password' });
   }
 
+  console.log('[AUTH] Password valid, generating token for:', email);
+
   const token = generateToken(user._id, user.role);
+
+  console.log('[AUTH] Login successful for:', email);
 
   res.status(200).json({
     success: true,
