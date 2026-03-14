@@ -51,3 +51,18 @@ export const resourceService = {
   rejectResource: (id) => api.put(`/resources/${id}/reject`),
   deleteResource: (id) => api.delete(`/resources/${id}`),
 };
+
+export const ambulanceService = {
+  registerAmbulance: (data) => api.post('/ambulances/register', data),
+  updateLocation: (ambulanceId, location) =>
+    api.put(`/ambulances/${ambulanceId}/location`, location),
+  updateStatus: (ambulanceId, statusData) =>
+    api.put(`/ambulances/${ambulanceId}/status`, statusData),
+  getNearbyAmbulances: (latitude, longitude, radius = 5000) =>
+    api.get('/ambulances/nearby', {
+      params: { latitude, longitude, radius },
+    }),
+  trackAmbulance: (ambulanceId) => api.get(`/ambulances/${ambulanceId}/track`),
+  callAmbulance: (ambulanceId, data) => api.post(`/ambulances/${ambulanceId}/call`, data),
+  getAllAmbulances: () => api.get('/ambulances'),
+};

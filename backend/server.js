@@ -11,6 +11,7 @@ import pharmacyRoutes from './routes/pharmacyRoutes.js';
 import donorRoutes from './routes/donorRoutes.js';
 import bloodRequestRoutes from './routes/bloodRequestRoutes.js';
 import resourceRoutes from './routes/resourceRoutes.js';
+import ambulanceRoutes from './routes/ambulanceRoutes.js';
 
 // Load environment variables
 dotenv.config();
@@ -57,6 +58,7 @@ app.use('/api/pharmacies', pharmacyRoutes);
 app.use('/api/donors', donorRoutes);
 app.use('/api/blood-requests', bloodRequestRoutes);
 app.use('/api/resources', resourceRoutes);
+app.use('/api/ambulances', ambulanceRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {
