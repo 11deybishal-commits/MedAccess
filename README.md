@@ -345,6 +345,9 @@ Contributions are welcome! Please create a pull request with your changes.
 
 Built with ❤️ for the community
 
+The project has not been deployed yet for some reason till then, you can have a overlook of the project and can clone it on your system and run too:
+LINK: 
+https://drive.google.com/drive/folders/1av5dLc03it_s2_h_8h4OrUr2WVncouqw?usp=drive_link
 ---
 
 **Note**: This is a production-ready application. Make sure to set up proper environment variables and secure credentials before deploying to production.
