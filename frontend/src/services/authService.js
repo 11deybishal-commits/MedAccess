@@ -66,3 +66,29 @@ export const ambulanceService = {
   callAmbulance: (ambulanceId, data) => api.post(`/ambulances/${ambulanceId}/call`, data),
   getAllAmbulances: () => api.get('/ambulances'),
 };
+
+export const reportService = {
+  uploadReport: (formData) => api.post('/reports', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  }),
+  getMyReports: () => api.get('/reports'),
+  deleteReport: (id) => api.delete(`/reports/${id}`),
+  analyzeReport: (id) => api.post(`/reports/${id}/analyze`)
+};
+
+export const appointmentService = {
+  book: (data) => api.post('/appointments', data),
+  getMine: () => api.get('/appointments'),
+  update: (id, data) => api.put(`/appointments/${id}`, data),
+  cancel: (id) => api.delete(`/appointments/${id}`)
+};
+
+export const biometricService = {
+  record: (data) => api.post('/biometrics', data),
+  getHistory: () => api.get('/biometrics'),
+  getLatest: () => api.get('/biometrics/latest')
+};
+
+
+
+

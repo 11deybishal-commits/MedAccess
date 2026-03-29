@@ -3,6 +3,11 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import { errorHandler } from './middleware/errorHandler.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Import routes
 import authRoutes from './routes/authRoutes.js';
@@ -12,6 +17,10 @@ import donorRoutes from './routes/donorRoutes.js';
 import bloodRequestRoutes from './routes/bloodRequestRoutes.js';
 import resourceRoutes from './routes/resourceRoutes.js';
 import ambulanceRoutes from './routes/ambulanceRoutes.js';
+import reportRoutes from './routes/reportRoutes.js';
+import appointmentRoutes from './routes/appointmentRoutes.js';
+import biometricRoutes from './routes/biometricRoutes.js';
+import aiRoutes from './routes/aiRoutes.js';
 
 // Load environment variables
 dotenv.config();
@@ -59,6 +68,15 @@ app.use('/api/donors', donorRoutes);
 app.use('/api/blood-requests', bloodRequestRoutes);
 app.use('/api/resources', resourceRoutes);
 app.use('/api/ambulances', ambulanceRoutes);
+app.use('/api/reports', reportRoutes);
+app.use('/api/appointments', appointmentRoutes);
+app.use('/api/biometrics', biometricRoutes);
+app.use('/api/ai', aiRoutes);
+
+
+
+// Serve uploads folder as static
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Health check endpoint
 app.get('/health', (req, res) => {

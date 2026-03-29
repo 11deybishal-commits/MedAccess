@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Clinical Curator | Elite Medical Group</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-fixed-dim": "#b3c7f1",
+              "primary-fixed": "#d7e2ff",
+              "surface-variant": "#e0e3e5",
+              "error": "#ba1a1a",
+              "surface": "#f7f9fb",
+              "surface-container-high": "#e6e8ea",
+              "inverse-primary": "#acc7ff",
+              "surface-tint": "#115cb9",
+              "secondary-container": "#bfd2fd",
+              "primary-container": "#0056b3",
+              "primary": "#003f87",
+              "on-error-container": "#93000a",
+              "surface-container-highest": "#e0e3e5",
+              "surface-dim": "#d8dadc",
+              "secondary": "#4c5e84",
+              "outline": "#727784",
+              "on-secondary": "#ffffff",
+              "tertiary-fixed": "#79f6ed",
+              "on-surface": "#191c1e",
+              "on-primary": "#ffffff",
+              "primary-fixed-dim": "#acc7ff",
+              "error-container": "#ffdad6",
+              "tertiary-fixed-dim": "#59dad1",
+              "on-surface-variant": "#424752",
+              "on-error": "#ffffff",
+              "surface-container-lowest": "#ffffff",
+              "on-background": "#191c1e",
+              "on-tertiary": "#ffffff",
+              "on-primary-fixed-variant": "#004491",
+              "on-tertiary-fixed-variant": "#00504c",
+              "surface-bright": "#f7f9fb",
+              "tertiary": "#004a46",
+              "background": "#f7f9fb",
+              "inverse-on-surface": "#eff1f3",
+              "on-primary-fixed": "#001a40",
+              "surface-container": "#eceef0",
+              "on-tertiary-fixed": "#00201e",
+              "on-secondary-container": "#475a7f",
+              "secondary-fixed": "#d7e2ff",
+              "outline-variant": "#c2c6d4",
+              "tertiary-container": "#00645f",
+              "surface-container-low": "#f2f4f6",
+              "on-tertiary-container": "#64e3db",
+              "on-secondary-fixed": "#041b3c",
+              "on-secondary-fixed-variant": "#34476a",
+              "on-primary-container": "#bbd0ff",
+              "inverse-surface": "#2d3133"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .text-shadow-sm { text-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .neuron-pattern {
+            background-image: radial-gradient(circle at 2px 2px, rgba(0, 63, 135, 0.03) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-slate-50/70 dark:bg-slate-900/70 backdrop-blur-xl shadow-[0_20px_40px_rgba(25,28,30,0.06)]">
+<div class="flex justify-between items-center px-12 py-5 max-w-[1440px] mx-auto">
+<div class="text-2xl font-bold font-manrope text-blue-900 dark:text-blue-50 tracking-tighter">Clinical Curator</div>
+<div class="hidden md:flex gap-10 font-manrope text-sm font-medium tracking-wide">
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-300 transition-all duration-300" href="#">Services</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-300 transition-all duration-300" href="#">Specialists</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-300 transition-all duration-300" href="#">Patient Resources</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-300 transition-all duration-300" href="#">Research</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-300 transition-all duration-300" href="#">About</a>
+</div>
+<button class="bg-gradient-to-br from-primary to-primary-container text-white px-8 py-3 rounded-full font-manrope text-sm font-semibold hover:scale-95 active:scale-100 transition-transform shadow-lg shadow-primary/10">
+                Book Consultation
+            </button>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="relative min-h-screen pt-32 pb-20 flex flex-col justify-center overflow-hidden">
+<!-- Neuron Pattern Background -->
+<div class="absolute inset-0 neuron-pattern -z-10"></div>
+<div class="absolute -right-20 top-1/2 -translate-y-1/2 w-1/2 h-[80%] bg-gradient-to-l from-blue-50/50 to-transparent rounded-full blur-3xl -z-10"></div>
+<div class="max-w-[1440px] mx-auto px-12 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<div class="space-y-8">
+<div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-tertiary-container/10 text-tertiary font-semibold text-xs uppercase tracking-widest border border-tertiary/10">
+<span class="material-symbols-outlined text-[14px]">verified</span>
+                    World-Class Diagnostic Care
+                </div>
+<h1 class="text-[5rem] font-extrabold font-headline leading-[1.05] tracking-tight text-on-surface">
+                    Curating <br/> <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary to-tertiary">Precision</span> <br/> Medicine.
+                </h1>
+<p class="text-xl text-on-surface-variant max-w-lg leading-relaxed">
+                    Where advanced clinical research meets empathetic patient care. Experience a medical journey designed around your unique biological blueprint.
+                </p>
+<div class="flex items-center gap-6 pt-4">
+<button class="bg-primary text-white px-10 py-5 rounded-full font-headline font-bold text-lg hover:bg-primary-container transition-all scale-100 active:scale-95">
+                        Book a Consultation
+                    </button>
+<button class="flex items-center gap-2 font-headline font-bold text-primary group">
+                        View Research Journal
+                        <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="relative flex justify-center items-center">
+<!-- 3D Caduceus Visual -->
+<div class="relative w-full aspect-square max-w-xl group">
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/5 to-tertiary/5 rounded-full blur-2xl animate-pulse"></div>
+<div class="relative w-full h-full rounded-full bg-white/40 backdrop-blur-sm border border-white/20 shadow-2xl overflow-hidden flex items-center justify-center">
+<img alt="3D medical symbol" class="w-[85%] h-[85%] object-contain drop-shadow-[0_20px_50px_rgba(0,63,135,0.3)]" data-alt="Modern translucent 3D Caduceus medical symbol with soft blue and teal glowing nerve patterns and ethereal light particles" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcNaATQxmWLsPAFX0hi9S6zUSEfWYcM0-0Zt0YfYngpv2yKPfZL9t730MzygCyFTIvIsRP4C3kky2OuHLHJxLhVA4zML1ZNBlV4HkpoCmWOiXc0Z46ySXTqKmY19dVHe3UAhRdMhhJMK3LsDRSMBGqq7rzGvXG4ZECNyeXctkKPTujSdgr1u9vaHM-Pm9Pj8yMEJwqh9uedGDXRcW-hO5r2LmqzaZGhSEuSPSFjLHEAbcfhRLPXatJ3LZec-Fgx9WGWWgxaSpRVr8"/>
+<!-- Floating Data Points -->
+<div class="absolute top-20 right-10 bg-white/90 p-4 rounded-xl shadow-xl backdrop-blur-xl border border-blue-50">
+<div class="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Diagnostic Speed</div>
+<div class="text-2xl font-bold text-primary">0.4s <span class="text-tertiary text-sm">/ AI</span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Services Bento Grid -->
+<section class="py-32 bg-surface-container-low">
+<div class="max-w-[1440px] mx-auto px-12">
+<div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+<div>
+<h2 class="text-4xl font-extrabold font-headline text-on-surface tracking-tight mb-4">Core Disciplines</h2>
+<p class="text-on-surface-variant max-w-md">Our specialized departments utilize the latest in molecular diagnostics and robotic intervention.</p>
+</div>
+<div class="flex gap-4">
+<button class="p-4 rounded-full border border-outline-variant hover:bg-white transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="p-4 rounded-full border border-outline-variant hover:bg-white transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Neurology -->
+<div class="group relative overflow-hidden rounded-3xl bg-surface-container-lowest h-[500px] transition-all hover:shadow-2xl">
+<img alt="Neurology" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="High-resolution close up of a human brain scan with glowing neural pathways in shades of blue and white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCv8LGiRumM64Avbz3SJDk4nUvpNTE7n38MYi3sd9NOiwhX3ta_W8AC9rscSWHK2vYFFiI0_HgH_oJgihJNVPKEnOe9aIm3HWeZHFamhu0HXqA7sWT4B4wCkiej-vTaPtKG4UakIjf3GN6u5_MBKP5zwRb4Y29ibSDlSdqKhufcbiJele8CiHtaQK5xZknwppHzsNiyZSeCfye6TkSqRAt-tSKlbEBZfJT0wwL-Le2W6R6ZIymTR4f28p0YEg6wmDwrbrq_IFjrHPk"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent"></div>
+<div class="absolute bottom-0 p-10 text-white">
+<div class="mb-4 inline-block p-3 rounded-2xl bg-white/20 backdrop-blur-md">
+<span class="material-symbols-outlined text-3xl">psychology</span>
+</div>
+<h3 class="text-3xl font-bold font-headline mb-2">Neurology</h3>
+<p class="text-white/80 line-clamp-2">Pioneering neuro-regeneration therapies and advanced stroke care protocols.</p>
+</div>
+</div>
+<!-- Cardiology -->
+<div class="group relative overflow-hidden rounded-3xl bg-surface-container-lowest h-[500px] transition-all hover:shadow-2xl">
+<img alt="Cardiology" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A futuristic medical monitor displaying a 3D beating heart with arterial flow mapping in clinical setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjm_0F4Zdmz7VzKtG-7E5Gqe8l6LFLq-5HFc64yv4v62JkoprHy8gVxu9SODPJTMsbeo-2R2A5BtNRTR54IrPilPikybp57_G70vIFdwsv8PGZEzc6PZdJBJnpIEMnyaD81GzTqQWi2UN7aY8zaOwB6W7ELW9Ht0wOOqXn_ygZg-lXYpSg4yRiXiiHVfsATzPdqqqKP2zjQZntXAk7BWcX5UPU-4gm8c8xqoL9-BHu35pjWIWbpuGm4c9sLlo8LucakX0ATcG_eNA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-tertiary/90 via-tertiary/20 to-transparent"></div>
+<div class="absolute bottom-0 p-10 text-white">
+<div class="mb-4 inline-block p-3 rounded-2xl bg-white/20 backdrop-blur-md">
+<span class="material-symbols-outlined text-3xl">favorite</span>
+</div>
+<h3 class="text-3xl font-bold font-headline mb-2">Cardiology</h3>
+<p class="text-white/80 line-clamp-2">Non-invasive cardiac imaging and personalized cardiovascular health management.</p>
+</div>
+</div>
+<!-- Radiology -->
+<div class="group relative overflow-hidden rounded-3xl bg-surface-container-lowest h-[500px] transition-all hover:shadow-2xl">
+<img alt="Radiology" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Advanced MRI machine in a clean modern medical facility with soft circular lighting and teal accents" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJ_BpMHIaE-f8mJ37yGt-6WQD5212YrEc-Fvvce3gipR9PWqJFnwzPlsIkm5EeTwmtCdzGO_7zKyaHWosigvJoeHWOqL7BXhEYTOW7bIrJsU-a8y1crVLlQXaa7CtKyVIos2YEiDwnIbPgX_D3P8jckFTh2WC3gprVp_U8ydmHI_QBAbIpyxFs1W9DHDpPbjJNfV_29nd7sgWjI62bHu-EdHt9s4betA5q8ldPKcrgyM2rEjegRgEKDkjQveFiUCiJjz9jZ2Afg6g"/>
+<div class="absolute inset-0 bg-gradient-to-t from-blue-950/90 via-blue-950/20 to-transparent"></div>
+<div class="absolute bottom-0 p-10 text-white">
+<div class="mb-4 inline-block p-3 rounded-2xl bg-white/20 backdrop-blur-md">
+<span class="material-symbols-outlined text-3xl">biotech</span>
+</div>
+<h3 class="text-3xl font-bold font-headline mb-2">Radiology</h3>
+<p class="text-white/80 line-clamp-2">Next-generation imaging including 7T MRI and low-dose molecular CT scans.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Specialists Section -->
+<section class="py-32">
+<div class="max-w-[1440px] mx-auto px-12">
+<div class="flex flex-col items-center text-center mb-20">
+<span class="text-primary font-bold uppercase tracking-widest text-xs mb-4">Elite Faculty</span>
+<h2 class="text-5xl font-extrabold font-headline mb-6">Meet Our Specialists</h2>
+<div class="w-20 h-1 bg-tertiary rounded-full"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+<!-- Dr 1 -->
+<div class="group">
+<div class="aspect-[3/4] rounded-3xl overflow-hidden mb-6 relative">
+<img alt="Specialist" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Professional portrait of a middle-aged male doctor with a warm smile in a high-end clinical office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAi0zBjgSgULjJJ3FlF5vGdXOthCgfQUFJeT0uq0cIrM94cLcVMrpPZtlIs6IucE6fU5PwL92EnobbuNEc6sO0Kt73eK-c4MzJFiDCyRxAtxCeePM3sGkQay1tTMFdpqiTBoIq8Sc_NurJHZHGTWzQgJB6jCmdKog0YQ07c5ctw5dUomqx3BBxu4hYpAHLAA8aqalM5_WrcA80HvKBxSBNdvVO0TiGs0xGqNordVZjPbtyIOjAvGEavHClFhhK_df2JoGVD4-hq5aI"/>
+<div class="absolute bottom-4 right-4">
+<div class="bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 shadow-lg">
+<span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
+                                ON DUTY
+                            </div>
+</div>
+</div>
+<h4 class="text-xl font-bold font-headline">Dr. Julian Sterling</h4>
+<p class="text-primary text-sm font-semibold mb-2">Chief of Neurosurgery</p>
+<p class="text-xs text-on-surface-variant italic">Harvard Medical School Faculty</p>
+</div>
+<!-- Dr 2 -->
+<div class="group">
+<div class="aspect-[3/4] rounded-3xl overflow-hidden mb-6 relative">
+<img alt="Specialist" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Portrait of a professional female doctor in white coat looking confident and friendly" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMK5OH2gtcb2LCncMBUZyY9EAEsG25qGjXxNpxbGmvnzl4GMbYV9Wcy1p_bFwkEsDL5D7nSGkVfEyqblAdCsmtttriQ9S5S3VaMhluqiGn7QvaY7-1QIJ9BCAHFBYRTsFXcDd7rqduGDgSOsJpzkaiU4H7n8UoplriHHx3Q1AKOryiF6u-zHCLUhvkd8OYXPB0uIUiAyo7RdhJ2bs07ERuw-C-DSduOI9y2rChwD3GjqISh_g2Zu81kJlqxhfgwo8m5gVtrgXdzaI"/>
+</div>
+<h4 class="text-xl font-bold font-headline">Dr. Elena Vance</h4>
+<p class="text-primary text-sm font-semibold mb-2">Cardiology Director</p>
+<p class="text-xs text-on-surface-variant italic">Yale School of Medicine</p>
+</div>
+<!-- Dr 3 -->
+<div class="group">
+<div class="aspect-[3/4] rounded-3xl overflow-hidden mb-6 relative">
+<img alt="Specialist" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Professional portrait of a focused male radiologist in high-tech diagnostic lab" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9GCxNS1eggJX-NyB1KRWh37VXA48KeUZnbMLBi50FREseQVqKvLEmeTb0IZqcFUjDhJ2clyEPnCoMo2OAZsX-cE0lbwmTna8IWZKZr2AkjfXuY1O3heDe5GVxa3RNOgZ7YEFyIg3T2_jc9dMaQB6LQenUNt37rjwnKSRQEepsHiYog06Iv0EGGL203TJYkaEZx29PRNQaqPceQNsm0K0_odF4uiVTgns8WwRHA77k_QI-7Z1JTPQGvqqVmqQlG3Hzz1PDLi1ISYA"/>
+</div>
+<h4 class="text-xl font-bold font-headline">Dr. Marcus Chen</h4>
+<p class="text-primary text-sm font-semibold mb-2">Molecular Radiologist</p>
+<p class="text-xs text-on-surface-variant italic">Stanford Medicine Alumni</p>
+</div>
+<!-- Dr 4 -->
+<div class="group">
+<div class="aspect-[3/4] rounded-3xl overflow-hidden mb-6 relative">
+<img alt="Specialist" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Professional medical specialist smiling warmly in soft natural light office setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIhYBvRHN4RfhoVYgOWZniUceBf9mFZnDxsqpsjx2tuCk4qmJPc-eYR0e6sD53wrqZM3LF9ikiFO6-I96zosgWHZ2ol-JvUklVKBkU7pGD27SJXVmweTd71DvLTtTljBH6g4l6YJFT4UVf7VYWtMXRMkQGf25SRm65qBch1fSyO867mOnZvWTvhXWAjPSzngmmzzcK0IR9FgkxLAMGw5FBl7W2qF83IB8hvAfGxAACThanvaExuOI1RCCie1i1HGXY8AoVUP3TkeE"/>
+</div>
+<h4 class="text-xl font-bold font-headline">Dr. Sarah Laine</h4>
+<p class="text-primary text-sm font-semibold mb-2">Genomics Researcher</p>
+<p class="text-xs text-on-surface-variant italic">Johns Hopkins University</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Patient Portal Preview -->
+<section class="py-24 bg-surface-container-high overflow-hidden">
+<div class="max-w-[1440px] mx-auto px-12">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+<div class="order-2 lg:order-1 relative">
+<!-- Glassmorphism Interface Mockup -->
+<div class="relative z-10 p-8 rounded-[2rem] bg-white shadow-2xl border border-white/50">
+<div class="flex justify-between items-center mb-10">
+<div>
+<div class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Welcome Back</div>
+<div class="text-2xl font-bold font-headline">Patient #CC-9421</div>
+</div>
+<div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">person</span>
+</div>
+</div>
+<div class="space-y-6">
+<div class="p-6 rounded-2xl bg-surface-container-low flex justify-between items-center">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">calendar_today</span>
+</div>
+<div>
+<div class="font-bold">Annual Check-up</div>
+<div class="text-xs text-slate-500">Oct 24, 2024 at 10:00 AM</div>
+</div>
+</div>
+<button class="text-primary font-bold text-sm">Reschedule</button>
+</div>
+<div class="p-6 rounded-2xl bg-surface-container-low flex justify-between items-center">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-tertiary/10 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined">lab_research</span>
+</div>
+<div>
+<div class="font-bold">Lab Results Ready</div>
+<div class="text-xs text-slate-500">Metabolic Panel Available</div>
+</div>
+</div>
+<button class="bg-tertiary text-white px-4 py-2 rounded-full text-xs font-bold">View Data</button>
+</div>
+</div>
+</div>
+<!-- Background blobs -->
+<div class="absolute -top-10 -left-10 w-40 h-40 bg-primary/20 rounded-full blur-3xl -z-0"></div>
+<div class="absolute -bottom-10 -right-10 w-60 h-60 bg-tertiary/20 rounded-full blur-3xl -z-0"></div>
+</div>
+<div class="order-1 lg:order-2">
+<h2 class="text-4xl font-extrabold font-headline mb-6">Your Health, <br/><span class="text-primary">Fully Curated.</span></h2>
+<p class="text-on-surface-variant text-lg leading-relaxed mb-8">
+                        Our proprietary patient portal offers real-time access to clinical data, genetic insights, and direct communication with your care team. Total transparency for total peace of mind.
+                    </p>
+<ul class="space-y-4 mb-10">
+<li class="flex items-center gap-3 text-on-surface font-medium">
+<span class="material-symbols-outlined text-tertiary" data-weight="fill">check_circle</span>
+                            Biometric health tracking integration
+                        </li>
+<li class="flex items-center gap-3 text-on-surface font-medium">
+<span class="material-symbols-outlined text-tertiary" data-weight="fill">check_circle</span>
+                            Secure multi-factor data encryption
+                        </li>
+<li class="flex items-center gap-3 text-on-surface font-medium">
+<span class="material-symbols-outlined text-tertiary" data-weight="fill">check_circle</span>
+                            Direct-to-Specialist messaging
+                        </li>
+</ul>
+<button class="bg-primary-container text-white px-10 py-4 rounded-full font-headline font-bold shadow-xl shadow-primary-container/20">
+                        Access Patient Portal
+                    </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-slate-100 dark:bg-slate-950 w-full py-12 px-12 border-t border-slate-200/20">
+<div class="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+<div class="flex flex-col gap-4">
+<div class="text-lg font-black text-blue-900 dark:text-blue-50 font-manrope">Clinical Curator</div>
+<div class="font-inter text-xs uppercase tracking-widest text-slate-500 dark:text-slate-500">
+                    © 2024 Clinical Curator Medical Group. All rights reserved.
+                </div>
+</div>
+<div class="flex flex-wrap gap-8 md:justify-end font-inter text-xs uppercase tracking-widest">
+<a class="text-slate-500 hover:text-teal-600 dark:hover:text-teal-400 transition-colors opacity-80 hover:opacity-100" href="#">Privacy Policy</a>
+<a class="text-slate-500 hover:text-teal-600 dark:hover:text-teal-400 transition-colors opacity-80 hover:opacity-100" href="#">Terms of Service</a>
+<a class="text-slate-500 hover:text-teal-600 dark:hover:text-teal-400 transition-colors opacity-80 hover:opacity-100" href="#">Accessibility</a>
+<a class="text-slate-500 hover:text-teal-600 dark:hover:text-teal-400 transition-colors opacity-80 hover:opacity-100" href="#">Contact Support</a>
+</div>
+</div>
+</footer>
+</body></html>

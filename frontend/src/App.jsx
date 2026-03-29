@@ -24,6 +24,11 @@ import Profile from './pages/Profile.jsx';
 import BloodDonorForm from './pages/BloodDonorForm.jsx';
 import BloodRequestForm from './pages/BloodRequestForm.jsx';
 import ResourceForm from './pages/ResourceForm.jsx';
+import PatientPortal from './pages/PatientPortal.jsx';
+import AnnualCheckup from './pages/AnnualCheckup.jsx';
+import Appointments from './pages/Appointments.jsx';
+import AIAssistant from './pages/AIAssistant.jsx';
+import InteractiveAnatomy from './pages/InteractiveAnatomy.jsx';
 
 const AppContent = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -58,6 +63,11 @@ const AppContent = () => {
             <Route path="/resource-form" element={<ResourceForm />} />
             <Route path="/emergency" element={<Emergency />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/patient-portal" element={<PatientPortal />} />
+            <Route path="/interactive-anatomy" element={<InteractiveAnatomy />} />
+            <Route path="/annual-checkup" element={<AnnualCheckup />} />
+            <Route path="/appointments" element={<Appointments />} />
+            <Route path="/ai-assistant" element={<AIAssistant />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Routes>
