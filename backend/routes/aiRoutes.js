@@ -32,7 +32,7 @@ const upload = multer({
 });
 
 // Routes
-router.post('/diagnose', protect, diagnoseSymptoms);
+router.post('/diagnose', diagnoseSymptoms);
 router.post('/analyze-report', protect, upload.single('file'), analyzeReportFile);
 
 export default router;
