@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ['user', 'admin'],
+      enum: ['user', 'admin', 'hospital_admin'],
       default: 'user',
     },
     bloodGroup: {
@@ -43,6 +43,58 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    // ─── Hospital Admin Specific Fields ───────────────────────────────────────
+    hospitalName: {
+      type: String,
+      trim: true,
+    },
+    hospitalAddress: {
+      type: String,
+      trim: true,
+    },
+    hospitalPhone: {
+      type: String,
+      trim: true,
+    },
+    hospitalSpecialties: {
+      type: [String],
+      default: [],
+    },
+    hospitalLat: {
+      type: Number,
+    },
+    hospitalLng: {
+      type: Number,
+    },
+    hospitalDescription: {
+      type: String,
+      trim: true,
+    },
+    registrationNumber: {
+      type: String,
+      trim: true,
+    },
+    totalBeds: {
+      type: Number,
+      default: 0,
+    },
+    availableBeds: {
+      type: Number,
+      default: 0,
+    },
+    rating: {
+      type: Number,
+      default: 4.5,
+    },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    isActiveHospital: {
+      type: Boolean,
+      default: true,
+    },
+    // ─────────────────────────────────────────────────────────────────────────
   },
   { timestamps: true }
 );
@@ -52,7 +104,6 @@ userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     return next();
   }
-
   try {
     const salt = await bcryptjs.genSalt(10);
     this.password = await bcryptjs.hash(this.password, salt);

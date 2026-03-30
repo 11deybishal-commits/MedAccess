@@ -79,7 +79,13 @@ const Login = () => {
       const { token, user } = response.data;
       login(user, token);
       toast.success('Login successful');
-      navigate('/');
+      
+      // Role-based redirect
+      if (user.role === 'hospital_admin') {
+        navigate('/hospital-admin');
+      } else {
+        navigate('/');
+      }
     } catch (error) {
       const message = error.response?.data?.message || 'Login failed';
       toast.error(message);

@@ -21,6 +21,7 @@ import reportRoutes from './routes/reportRoutes.js';
 import appointmentRoutes from './routes/appointmentRoutes.js';
 import biometricRoutes from './routes/biometricRoutes.js';
 import aiRoutes from './routes/aiRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
 
 // Load environment variables
 dotenv.config();
@@ -50,7 +51,6 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 app.use(cors(corsOptions));
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -72,8 +72,7 @@ app.use('/api/reports', reportRoutes);
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/biometrics', biometricRoutes);
 app.use('/api/ai', aiRoutes);
-
-
+app.use('/api/admin', adminRoutes);
 
 // Serve uploads folder as static
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -82,7 +81,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.get('/health', (req, res) => {
   res.json({
     success: true,
-    message: 'Server is running',
+    message: 'MediAccess Server is running',
     timestamp: new Date().toISOString(),
   });
 });

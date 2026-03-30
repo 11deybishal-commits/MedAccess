@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { jsPDF } from 'jspdf';
 import { useNavigate } from 'react-router-dom';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL?.replace(/\/api$/, '') || 'http://localhost:5000';
+const API_BASE_URL = import.meta.env.VITE_API_URL?.replace(/\/api$/, '') || 'http://localhost:5001';
 
 const doctorsList = [
   { id: 1, name: 'Dr. Julian Sterling', specialty: 'Neurosurgery', available: true, image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAi0zBjgSgULjJJ3FlF5vGdXOthCgfQUFJeT0uq0cIrM94cLcVMrpPZtlIs6IucE6fU5PwL92EnobbuNEc6sO0Kt73eK-c4MzJFiDCyRxAtxCeePM3sGkQay1tTMFdpqiTBoIq8Sc_NurJHZHGTWzQgJB6jCmdKog0YQ07c5ctw5dUomqx3BBxu4hYpAHLAA8aqalM5_WrcA80HvKBxSBNdvVO0TiGs0xGqNordVZjPbtyIOjAvGEavHClFhhK_df2JoGVD4-hq5aI' },

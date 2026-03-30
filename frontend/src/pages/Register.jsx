@@ -266,7 +266,7 @@ const Register = () => {
             </motion.button>
           </form>
 
-          <div className="mt-8 pt-6 border-t border-white/10 text-center">
+          <div className="mt-8 pt-6 border-t border-white/10 text-center space-y-4">
             <p className="text-white/70">
               Already have an account?{' '}
               <button
@@ -276,6 +276,15 @@ const Register = () => {
                 Sign in
               </button>
             </p>
+            <div className="pt-4 border-t border-white/10">
+              <p className="text-white/70 mb-2">Are you a hospital?</p>
+              <button
+                onClick={() => navigate('/register-hospital')}
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 text-cyan-300 font-bold rounded-xl hover:bg-white/20 hover:border-cyan-400/50 transition-all"
+              >
+                Register Your Hospital
+              </button>
+            </div>
           </div>
         </div>
       </motion.div>

@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { FaCloudUploadAlt, FaFileMedical, FaExclamationCircle, FaCheckCircle, FaRobot } from 'react-icons/fa';
+import { FaCloudUploadAlt, FaFileMedical, FaExclamationCircle, FaCheckCircle, FaRobot, FaVolumeUp } from 'react-icons/fa';
+import { playSound } from '../utils/soundEffects';
 
 const ReportAnalyzer = () => {
     const [file, setFile] = useState(null);
     const [analysis, setAnalysis] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [isSpeaking, setIsSpeaking] = useState(false);
 
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
@@ -24,8 +26,13 @@ const ReportAnalyzer = () => {
         setLoading(true);
         setError(null);
         try {
+            playSound('click');
+        } catch (e) {
+            console.error('Sound error:', e);
+        }
+        try {
             const token = localStorage.getItem('token');
-            const baseUrl = import.meta.env.VITE_API_URL?.replace(/\/api$/, '') || 'http://localhost:5000';
+            const baseUrl = import.meta.env.VITE_API_URL?.replace(/\/api$/, '') || 'http://localhost:5001';
             const response = await axios.post(`${baseUrl}/api/ai/analyze-report`, 
                 formData,
                 { headers: { 
@@ -33,12 +40,44 @@ const ReportAnalyzer = () => {
                     'Authorization': `Bearer ${token}` 
                 } }
             );
+            try {
+                playSound('success');
+            } catch (e) {
+                console.error('Sound error:', e);
+            }
             setAnalysis(response.data.data);
         } catch (err) {
             console.error(err);
+            try {
+                playSound('alert');
+            } catch (e) {
+                console.error('Sound error:', e);
+            }
             setError(err.response?.data?.message || "Failed to process report. Ensure Tesseract OCR and Gemini API are configured.");
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handlePlayExplanation = () => {
+        if (!analysis) return;
+        
+        try {
+            playSound('notification');
+        } catch (e) {
+            console.error('Sound error:', e);
+        }
+        setIsSpeaking(!isSpeaking);
+        
+        if (!isSpeaking) {
+            const textToSpeak = analysis.analysis;
+            const utterance = new SpeechSynthesisUtterance(textToSpeak);
+            utterance.rate = 0.95;
+            utterance.onend = () => setIsSpeaking(false);
+            window.speechSynthesis.speak(utterance);
+        } else {
+            window.speechSynthesis.cancel();
+            setIsSpeaking(false);
         }
     };
 
@@ -126,7 +165,22 @@ const ReportAnalyzer = () => {
                         <div className="p-8 space-y-8">
                             {/* Summary Card */}
                             <div className="p-6 bg-blue-50/50 rounded-2xl border border-blue-100/50">
-                                <h5 className="text-sm font-bold text-blue-400 uppercase tracking-widest mb-3">Professional Summary</h5>
+                                <div className="flex items-center justify-between mb-4">
+                                    <h5 className="text-sm font-bold text-blue-400 uppercase tracking-widest">Professional Summary</h5>
+                                    <motion.button
+                                        whileHover={{ scale: 1.1 }}
+                                        whileTap={{ scale: 0.95 }}
+                                        onClick={handlePlayExplanation}
+                                        className={`p-3 rounded-full transition-all ${
+                                            isSpeaking 
+                                            ? 'bg-blue-600 text-white' 
+                                            : 'bg-blue-200 text-blue-600 hover:bg-blue-300'
+                                        }`}
+                                        title={isSpeaking ? "Stop listening" : "Listen to explanation"}
+                                    >
+                                        <FaVolumeUp className="text-lg" />
+                                    </motion.button>
+                                </div>
                                 <div className="text-gray-800 leading-relaxed prose prose-blue max-w-none whitespace-pre-wrap">
                                     {analysis.analysis}
                                 </div>

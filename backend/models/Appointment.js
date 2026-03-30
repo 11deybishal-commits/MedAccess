@@ -7,6 +7,11 @@ const appointmentSchema = new mongoose.Schema(
       ref: 'User',
       required: true,
     },
+    hospital: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',        // hospital_admin user document
+      default: null,
+    },
     doctorName: {
       type: String,
       required: true,
@@ -23,7 +28,7 @@ const appointmentSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['Scheduled', 'Completed', 'Cancelled', 'Rescheduled'],
+      enum: ['Scheduled', 'Confirmed', 'Completed', 'Cancelled', 'Rescheduled'],
       default: 'Scheduled',
     },
     notes: {
@@ -33,7 +38,11 @@ const appointmentSchema = new mongoose.Schema(
     type: {
       type: String,
       default: 'Annual Check-up',
-    }
+    },
+    hospitalNotes: {
+      type: String,
+      trim: true,
+    },
   },
   { timestamps: true }
 );

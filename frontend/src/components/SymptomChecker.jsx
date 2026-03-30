@@ -35,7 +35,7 @@ const SymptomChecker = () => {
         setError(null);
         try {
             const token = localStorage.getItem('token');
-            const baseUrl = import.meta.env.VITE_API_URL?.replace(/\/api$/, '') || 'http://localhost:5000';
+            const baseUrl = import.meta.env.VITE_API_URL?.replace(/\/api$/, '') || 'http://localhost:5001';
             const response = await axios.post(`${baseUrl}/api/ai/diagnose`, 
                 { symptoms },
                 { headers: { Authorization: `Bearer ${token}` } }

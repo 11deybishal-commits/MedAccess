@@ -2,9 +2,20 @@ import api from './api.js';
 
 export const authService = {
   register: (data) => api.post('/auth/register', data),
+  registerHospital: (data) => api.post('/auth/register-hospital', data),
   login: (data) => api.post('/auth/login', data),
   getProfile: () => api.get('/auth/profile'),
   updateProfile: (data) => api.put('/auth/profile', data),
+};
+
+// ─── Hospital Admin Service ────────────────────────────────────────────────────
+export const adminService = {
+  getDashboard: () => api.get('/admin/dashboard'),
+  getAppointments: (status = '', page = 1, limit = 50) =>
+    api.get('/admin/appointments', { params: { status: status || undefined, page, limit } }),
+  updateAppointment: (id, data) => api.put(`/admin/appointments/${id}`, data),
+  getPatients: () => api.get('/admin/patients'),
+  updateProfile: (data) => api.put('/admin/profile', data),
 };
 
 export const hospitalService = {
