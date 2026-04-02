@@ -494,9 +494,10 @@ lsof -ti:5000 | xargs kill -9
 
 ---
 
-## 📄 License
+## Working Prototype
 
-This project is licensed under the MIT License - see LICENSE file for details.
+Link: [https://med-access-55c5.vercel.app/]
+Note: The API route for functioning of the AI assistant has been disabled for security reasons. It will work when will be enabled and cloned on the system.
 
 ---
 
