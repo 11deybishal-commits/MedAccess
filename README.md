@@ -55,13 +55,11 @@
 
 ### 🤖 **AI/ML Service (Python)**
 - **FastAPI** - Modern Python web framework
-- **TensorFlow/Keras** - Deep learning framework
-- **OpenCV** - Computer vision
-- **Scikit-learn** - Machine learning library
-- **Google Generative AI (Gemini)** - LLM for text analysis
+- **Scikit-learn** - Machine learning library (Random Forest Classifier)
+- **Google Generative AI (Gemini)** - LLM for medical report analysis
 - **Tesseract OCR** - Optical character recognition
-- **PyPDF2** - PDF processing
-- **NumPy/Pandas** - Data processing
+- **pdf2image** - PDF processing
+- **NumPy/Pandas/Joblib** - Data processing and model serialization
 - **Pillow** - Image processing
 
 ---
@@ -130,8 +128,6 @@ AI Service runs on `http://localhost:8000`
 ```bash
 # From root directory
 powershell .\start_all.ps1  # Windows
-# or
-bash start_all.sh  # Linux/Mac
 ```
 
 ---
@@ -256,12 +252,10 @@ GET    /api/ai/organ-info/:organ   Get organ-specific AI insights
 
 | Component | Technology | Purpose |
 |-----------|-----------|---------|
-| **OCR Engine** | Tesseract | Extract text from images |
-| **CV Models** | TensorFlow CNN | Detect patterns in medical images |
-| **NLP Pipeline** | spaCy/Scikit-learn | Extract medical entities |
-| **Text Generation** | Google Gemini API | Generate summaries & insights |
-| **Symptom Checker** | NLP Classification | Identify health conditions |
-| **Risk Assessment** | ML Regression | Predict health risks |
+| **OCR Engine** | Tesseract & pdf2image | Extract text from medical images and PDFs |
+| **Text Generation** | Google Gemini API (1.5 Flash) | Context-aware report summarization & recommendations |
+| **NLP Preprocessing** | Python difflib (Fuzzy Matching) | Map user colloquial symptoms to core medical database |
+| **Diagnostic Engine**| Scikit-learn (Random Forest) | Predict 105 specific health conditions with confidence scoring |
 
 ## 📁 Project Structure
 
@@ -321,10 +315,8 @@ MediAccess/
 │   ├── report_analyzer.py            # Core ML pipeline
 │   ├── train_model.py                # Model training
 │   ├── requirements.txt              # Python dependencies
-│   ├── models/                       # Trained ML models
-│   │   ├── resnet_medical.h5
-│   │   ├── symptom_classifier.pkl
-│   │   └── ...
+│   ├── model.pkl                     # Serialized Random Forest diagnostic model
+│   ├── symptoms.pkl                  # Serialized reference symptoms list
 │   ├── data/                         # Training data
 │   └── .env
 │
@@ -405,17 +397,6 @@ MediAccess/
 
 ## 🚀 Deployment
 
-### Docker Deployment
-```dockerfile
-# Backend Dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY . .
-RUN npm ci
-EXPOSE 5000
-CMD ["npm", "start"]
-```
-
 ### Environment Setup for Production
 ```bash
 # Backend
@@ -449,7 +430,7 @@ MODEL_PATH=/models
 
 | Metric | Verified Capability & Actual System Test |
 |--------|------------------------------------------|
-| **ML Diagnostic Validation Accuracy** | **93.67%** (Evaluated on a 2,100 record synthetic validation set) |
+| **ML Diagnostic Validation Accuracy** | **93.67%** (Evaluated on a 1,680 record synthetic validation set) |
 | **OCR / Document Processing Engine** | Tesseract OCR + Google Gemini Pro (Processing variable-quality user uploads) |
 | **Average API Response Time** | ~100-200ms depending on endpoint and payload size |
 | **Frontend Performance** | 60fps animations via Framer Motion with optimized React rendering |
@@ -524,7 +505,7 @@ This project is licensed under the MIT License - see LICENSE file for details.
 - **Lead Developer**: Bishal
 - **Stack**: MERN + Python ML
 - **Status**: ✅ Production Ready
-- **Last Updated**: March 30, 2026
+- **Last Updated**: April 2, 2026
 
 For issues and support, please create an issue in the repository.
 
