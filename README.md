@@ -439,30 +439,26 @@ MODEL_PATH=/models
 
 ## 📈 Project Statistics & Performance
 
-### 🤖 AI Model Capabilities
-- **Disease Coverage**: 120+ specialized medical conditions
-- **Diagnostic Logic**: Random Forest Classifier with 150 estimators
-- **Training Data**: 10,000+ synthetic patient records for high-fidelity pattern recognition
-- **NLP Engine**: Context-aware entity extraction for medical terminology
+### 🤖 Verified AI Model Capabilities
+- **Disease Coverage**: Exactly **105** specialized medical conditions mapped directly from the `medical_matrix`.
+- **Diagnostic Logic**: Random Forest Classifier utilizing **150 estimators** for robust decision branching.
+- **Training Dataset Size**: **8,400** synthetic patient records used during primary model training to ensure high-fidelity pattern recognition.
+- **NLP Engine**: Context-aware entity extraction and fuzzy matching to bridge user descriptions with medical terminology.
 
-### 📊 Performance Metrics
+### 📊 Verified Performance Metrics
 
-| Metric | Target | Actual |
-|--------|--------|--------|
-| **ML Diagnostic Accuracy** | >95% | **99.2%** |
-| **OCR Text Extraction Accuracy** | >95% | **96.5%** |
-| **Average AI Analysis Latency** | <5s | **3.2s** |
-| **API Response Time** | <200ms | **145ms** |
-| **Frontend FPS (UI/UX)** | 60fps | **60fps** |
+| Metric | Verified Capability & Actual System Test |
+|--------|------------------------------------------|
+| **ML Diagnostic Validation Accuracy** | **93.67%** (Evaluated on a 2,100 record synthetic validation set) |
+| **OCR / Document Processing Engine** | Tesseract OCR + Google Gemini Pro (Processing variable-quality user uploads) |
+| **Average API Response Time** | ~100-200ms depending on endpoint and payload size |
+| **Frontend Performance** | 60fps animations via Framer Motion with optimized React rendering |
 
-### 🌍 Real-World Impact (Estimated)
-
-| Area of Impact | Workload Reduction | Description |
-|----------------|-------------------|-------------|
-| **Preliminary Triaging** | **~65%** | Automated symptom checking reduces front-desk diagnostic burden. |
-| **Medical Report Processing** | **~50%** | OCR and AI summarization drastically cut manual data entry for doctors. |
-| **Emergency Resource Discovery**| **~80%** | Real-time locator eliminates the need for manual phone calls during crises. |
-| **Appointment Management** | **~40%** | Digital scheduling and admin dashboards streamline hospital operations. |
+### 🏥 System Feature Fulfillment (Instead of estimated impact)
+Instead of estimated statistical impact, here is the factual capability provided by the system:
+- **Preliminary Triaging Workflow**: Fully automated via the AI Diagnostic tool. Patients submit symptoms, and the system matches against 105 conditions to provide immediate risk assessment and guidance.
+- **Medical Report Digitization**: Bypasses manual entry by utilizing multi-modal AI to ingest, summarize, and extract insights directly from raw PDF and Image reports.
+- **Emergency Resource Allocation**: Employs live spatial queries via Google Maps API for near-instant (sub-second) retrieval of local blood donors, hospitals, and pharmacies, eliminating manual directory searches.
 
 ---
 
@@ -525,7 +521,7 @@ This project is licensed under the MIT License - see LICENSE file for details.
 
 ## 👥 Team & Support
 
-- **Lead Developer**: Bisha
+- **Lead Developer**: Bishal
 - **Stack**: MERN + Python ML
 - **Status**: ✅ Production Ready
 - **Last Updated**: March 30, 2026
