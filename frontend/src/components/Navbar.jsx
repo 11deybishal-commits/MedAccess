@@ -101,6 +101,10 @@ const Navbar = ({ onMenuToggle }) => {
                 className="text-slate-600 font-bold hover:text-blue-700 transition-colors text-sm border-b border-dashed border-slate-300 hover:border-blue-400">
                 Hospital Registration
               </button>
+              <button onClick={() => navigate('/pharmacy-login')}
+                className="text-slate-600 font-bold hover:text-emerald-700 transition-colors text-sm border-b border-dashed border-slate-300 hover:border-emerald-400">
+                Pharmacy Portal
+              </button>
               <button
                 onClick={() => navigate('/register')}
                 className="bg-gradient-to-br from-primary to-primary-container text-white px-8 py-3 rounded-full font-headline text-sm font-semibold hover:scale-95 active:scale-100 transition-transform shadow-lg shadow-primary/10"

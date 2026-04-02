@@ -34,6 +34,9 @@ import AnnualCheckup from './pages/AnnualCheckup.jsx';
 import Appointments from './pages/Appointments.jsx';
 import AIAssistant from './pages/AIAssistant.jsx';
 import InteractiveAnatomy from './pages/InteractiveAnatomy.jsx';
+import PharmacyLogin from './pages/PharmacyLogin.jsx';
+import PharmacyRegister from './pages/PharmacyRegister.jsx';
+import PharmacyAdminDashboard from './pages/PharmacyAdminDashboard.jsx';
 
 const AppContent = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -44,7 +47,7 @@ const AppContent = () => {
   }, [location]);
 
   // Paths that use their own full-screen layout (no shared navbar/footer)
-  const noLayoutPaths = ['/login', '/register', '/register-hospital', '/hospital-admin', '/admin'];
+  const noLayoutPaths = ['/login', '/register', '/register-hospital', '/hospital-admin', '/admin', '/pharmacy-login', '/pharmacy-register', '/pharmacy-admin'];
   const showLayout = !noLayoutPaths.some(p => location.pathname.startsWith(p));
 
   return (
@@ -82,6 +85,10 @@ const AppContent = () => {
             <Route path="/admin/appointments" element={<AdminAppointments />} />
             <Route path="/admin/patients" element={<AdminPatients />} />
             <Route path="/admin/settings" element={<AdminSettings />} />
+            {/* ── Pharmacy Routes ── */}
+            <Route path="/pharmacy-login" element={<PharmacyLogin />} />
+            <Route path="/pharmacy-register" element={<PharmacyRegister />} />
+            <Route path="/pharmacy-admin" element={<PharmacyAdminDashboard />} />
           </Routes>
         </main>
       </div>

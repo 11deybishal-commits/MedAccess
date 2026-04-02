@@ -52,35 +52,42 @@ async def predict_disease(request: SymptomRequest):
     
     # NLP Preprocessing: Synonyms and Fuzzy Matching
     import difflib
+    # 1. Expand synonyms using medical terminology
     synonyms = {
-        "fever": ["high_fever", "mild_fever", "low_grade_fever"],
-        "cough": ["continuous_cough", "dry_cough", "wet_cough", "mild_cough"],
-        "tummy ache": ["abdominal_pain", "abdominal_cramps"],
-        "stomach ache": ["abdominal_pain", "abdominal_cramps"],
-        "puking": ["vomiting"],
-        "throw up": ["vomiting"],
-        "head ache": ["headache", "severe_headache"],
-        "tired": ["fatigue", "weakness"],
-        "exhausted": ["fatigue"],
-        "runny nose": ["runny_nose", "congestion", "sneezing"],
-        "breathing problem": ["shortness_of_breath", "rapid_breathing"],
-        "dizzy": ["dizziness"]
+        "fever": ["high_fever", "mild_fever", "low_grade_fever", "pyrexia"],
+        "cough": ["continuous_cough", "dry_cough", "wet_cough", "mild_cough", "productive_cough"],
+        "tummy ache": ["abdominal_pain", "abdominal_cramps", "stomach_pain"],
+        "puking": ["vomiting", "nausea_and_vomiting"],
+        "head ache": ["headache", "migraine", "severe_headache"],
+        "tired": ["fatigue", "weakness", "malaise", "exhaustion"],
+        "breathing problem": ["shortness_of_breath", "dyspnea", "rapid_breathing"],
+        "dizzy": ["dizziness", "vertigo", "lightheadedness"],
+        "sore throat": ["sore_throat", "pharyngitis", "throat_irritation"],
+        "runny nose": ["runny_nose", "rhinorrhea", "nasal_congestion"],
+        "shortness of breath": ["shortness_of_breath", "dyspnea"],
+        "chest pain": ["chest_pain", "angina"],
+        "body ache": ["muscle_ache", "muscle_pain", "body_aches", "myalgia"],
+        "joint pain": ["joint_pain", "arthralgia"],
+        "skin rash": ["skin_rash", "dermatitis", "itchy_rash"],
+        "sweating": ["night_sweats", "excessive_sweating"],
+        "vomiting": ["vomiting", "emesis"],
+        "nausea": ["nausea"]
     }
     
-    # Create input vector initialized with 0
     input_vector = np.zeros(len(symptoms_list))
     
     matched_any = False
     for symptom in request.symptoms:
-        # Normalize symptom name
-        norm_symptom = symptom.strip().lower()
+        norm_symptom = symptom.strip().lower().replace("_", " ")
         
-        # 1. Expand synonyms
-        possible_matches = synonyms.get(norm_symptom, [norm_symptom.replace(" ", "_")])
+        # Check synonyms
+        search_terms = synonyms.get(norm_symptom, [norm_symptom.replace(" ", "_")])
+        if norm_symptom not in search_terms:
+            search_terms.append(norm_symptom.replace(" ", "_"))
         
-        # 2. Fuzzy match against dataset symptoms
-        for pm in possible_matches:
-            matches = difflib.get_close_matches(pm, symptoms_list, n=2, cutoff=0.7)
+        for term in search_terms:
+            # Fuzzy match
+            matches = difflib.get_close_matches(term, symptoms_list, n=3, cutoff=0.6)
             if matches:
                 for m in matches:
                     idx = symptoms_list.index(m)

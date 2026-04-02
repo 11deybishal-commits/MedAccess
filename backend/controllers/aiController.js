@@ -36,12 +36,21 @@ export const diagnoseSymptoms = async (req, res) => {
       disclaimer: "This is not a medical diagnosis. Consult a licensed doctor before taking any medication."
     });
   } catch (error) {
-    console.error('AI Service Error (Predict):', error.message);
-    res.status(error.response?.status || 500).json({ 
-      success: false,
-      message: 'Failed to connect to AI Service. Ensure the Python service is running.',
-      error: error.message 
-    });
+    if (error.response) {
+      console.error(`AI Service Error (${error.response.status}):`, error.response.data);
+      return res.status(error.response.status).json({ 
+        success: false,
+        message: error.response.data.detail || 'The AI service returned an error.',
+        error: error.message 
+      });
+    } else {
+      console.error('AI Service Connection Error:', error.message);
+      return res.status(503).json({ 
+        success: false,
+        message: 'The AI service is currently unavailable. Please ensure it is running on port 8000.',
+        error: error.message 
+      });
+    }
   }
 };
 

@@ -13,7 +13,9 @@ const SymptomChecker = () => {
     const commonSymptoms = [
         'fever', 'cough', 'fatigue', 'headache', 'nausea', 'vomiting', 
         'diarrhea', 'chest_pain', 'shortness_of_breath', 'dizziness',
-        'muscle_pain', 'joint_pain', 'skin_rash', 'sore_throat'
+        'muscle_pain', 'joint_pain', 'skin_rash', 'sore_throat',
+        'runny_nose', 'sneezing', 'chills', 'sweating', 'abdominal_pain',
+        'back_pain', 'stiff_neck', 'loss_of_appetite', 'weight_loss'
     ];
 
     const addSymptom = (symptom) => {
@@ -35,7 +37,7 @@ const SymptomChecker = () => {
         setError(null);
         try {
             const token = localStorage.getItem('token');
-            const baseUrl = import.meta.env.VITE_API_URL?.replace(/\/api$/, '') || 'http://localhost:5001';
+            const baseUrl = import.meta.env.VITE_API_URL?.replace(/\/api$/, '') || 'http://localhost:5000';
             const response = await axios.post(`${baseUrl}/api/ai/diagnose`, 
                 { symptoms },
                 { headers: { Authorization: `Bearer ${token}` } }

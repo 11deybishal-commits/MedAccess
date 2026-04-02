@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="flex flex-col gap-4">
           <div className="text-lg font-black text-blue-900 dark:text-blue-50 font-manrope">Clinical Curator</div>
           <div className="font-inter text-xs uppercase tracking-widest text-slate-500 dark:text-slate-500">
-             © 2024 Clinical Curator Medical Group. All rights reserved.
+             © 2026 Clinical Curator Medical Group. All rights reserved.
           </div>
         </div>
         <div className="flex flex-wrap gap-8 md:justify-end font-inter text-xs uppercase tracking-widest">
