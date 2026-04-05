@@ -12,6 +12,7 @@ import { AuthContext } from '../context/AuthContext.jsx';
 import { authService } from '../services/authService.js';
 import * as THREE from 'three';
 import FOG from 'vanta/dist/vanta.fog.min.js';
+import axios from 'axios';
 
 const SPECIALTIES_LIST = [
   'Cardiology', 'Neurology', 'Orthopedics', 'Radiology', 'Oncology',
@@ -128,31 +129,72 @@ const RegisterHospital = () => {
     if (!validateStep()) return;
     try {
       setLoading(true);
-      const payload = {
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-        phone: formData.phone,
-        hospitalName: formData.hospitalName,
-        hospitalAddress: formData.hospitalAddress,
-        hospitalPhone: formData.hospitalPhone || formData.phone,
-        registrationNumber: formData.registrationNumber,
-        hospitalDescription: formData.hospitalDescription,
-        hospitalSpecialties: formData.hospitalSpecialties,
-        totalBeds: Number(formData.totalBeds) || 0,
-        availableBeds: Number(formData.availableBeds) || 0,
-        hospitalLat: formData.hospitalLat ? Number(formData.hospitalLat) : null,
-        hospitalLng: formData.hospitalLng ? Number(formData.hospitalLng) : null,
+      // Initiate Razorpay checkout for a minimal registration fee
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      const orderRes = await axios.post(`${apiUrl}/payment/create-order`, { amount: 99 });
+      
+      const options = {
+        key: orderRes.data.key,
+        amount: orderRes.data.order.amount,
+        currency: "INR",
+        name: "MediAccess Network",
+        description: "Hospital Registration Fee",
+        order_id: orderRes.data.order.id,
+        handler: async function (response) {
+          try {
+            // Verify payment
+            await axios.post(`${apiUrl}/payment/verify`, {
+              razorpay_order_id: response.razorpay_order_id || orderRes.data.order.id,
+              razorpay_payment_id: response.razorpay_payment_id || 'mock_pay_123',
+              razorpay_signature: response.razorpay_signature || 'mock_sign_123'
+            });
+
+            // Proceed with original registration
+            const payload = {
+              name: formData.name,
+              email: formData.email,
+              password: formData.password,
+              phone: formData.phone,
+              hospitalName: formData.hospitalName,
+              hospitalAddress: formData.hospitalAddress,
+              hospitalPhone: formData.hospitalPhone || formData.phone,
+              registrationNumber: formData.registrationNumber,
+              hospitalDescription: formData.hospitalDescription,
+              hospitalSpecialties: formData.hospitalSpecialties,
+              totalBeds: Number(formData.totalBeds) || 0,
+              availableBeds: Number(formData.availableBeds) || 0,
+              hospitalLat: formData.hospitalLat ? Number(formData.hospitalLat) : null,
+              hospitalLng: formData.hospitalLng ? Number(formData.hospitalLng) : null,
+            };
+            const regResponse = await authService.registerHospital(payload);
+            const { token, user } = regResponse.data;
+            login(user, token);
+            toast.success('🏥 Payment and Registration successful! Welcome aboard.');
+            navigate('/hospital-admin');
+          } catch (err) {
+            toast.error('Registration failed after payment. Please contact support.');
+            setLoading(false);
+          }
+        },
+        prefill: {
+          name: formData.name,
+          email: formData.email,
+          contact: formData.phone
+        },
+        theme: {
+          color: "#3399cc"
+        }
       };
-      const response = await authService.registerHospital(payload);
-      const { token, user } = response.data;
-      login(user, token);
-      toast.success('🏥 Hospital registered successfully! Welcome aboard.');
-      navigate('/hospital-admin');
+      
+      const rzp = new window.Razorpay(options);
+      rzp.on('payment.failed', function (response){
+        toast.error('Payment failed! Registration not completed.');
+        setLoading(false);
+      });
+      rzp.open();
     } catch (error) {
-      const message = error.response?.data?.message || 'Registration failed. Please try again.';
+      const message = error.response?.data?.message || 'Failed to initialize payment. Please try again.';
       toast.error(message);
-    } finally {
       setLoading(false);
     }
   };

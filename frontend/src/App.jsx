@@ -7,6 +7,7 @@ import { LocationProvider } from './context/LocationContext.jsx';
 import Navbar from './components/Navbar.jsx';
 import Sidebar from './components/Sidebar.jsx';
 import Footer from './components/Footer.jsx';
+import Chatbot from './components/Chatbot.jsx';
 import './index.css';
 
 // Pages
@@ -94,6 +95,8 @@ const AppContent = () => {
       </div>
 
       {showLayout && <Footer />}
+
+      <Chatbot />
 
       <ToastContainer
         position="bottom-right"

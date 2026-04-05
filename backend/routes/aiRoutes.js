@@ -1,7 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import path from 'path';
-import { diagnoseSymptoms, analyzeReportFile } from '../controllers/aiController.js';
+import { diagnoseSymptoms, analyzeReportFile, chatWithAI } from '../controllers/aiController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -34,5 +34,6 @@ const upload = multer({
 // Routes
 router.post('/diagnose', protect, diagnoseSymptoms);
 router.post('/analyze-report', protect, upload.single('file'), analyzeReportFile);
+router.post('/chat', chatWithAI);
 
 export default router;

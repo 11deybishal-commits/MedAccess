@@ -7,6 +7,16 @@ import numpy as np
 from pydantic import BaseModel
 from typing import List
 from report_analyzer import analyze_medical_report
+import google.generativeai as genai
+from dotenv import load_dotenv
+
+load_dotenv()
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+if GEMINI_API_KEY:
+    genai.configure(api_key=GEMINI_API_KEY)
+    chat_model = genai.GenerativeModel('gemini-2.5-flash')
+else:
+    chat_model = None
 
 app = FastAPI(title="MediAccess AI Service")
 
@@ -142,6 +152,23 @@ async def analyze_report(file: UploadFile = File(...)):
         if os.path.exists(temp_path):
             os.remove(temp_path)
 
+class ChatRequest(BaseModel):
+    message: str
+
+@app.post("/chat")
+async def chat_with_bot(request: ChatRequest):
+    if not chat_model:
+        raise HTTPException(status_code=500, detail="Gemini API is not configured.")
+    try:
+        response = chat_model.generate_content(
+            f"You are a helpful and empathetic medical AI assistant for MediAccess. Patient asks: {request.message}. Provide a concise, clear, and reassuring answer, but include a disclaimer that you are an AI and they should consult a doctor if it's serious. Try to format it beautifully with emojis if needed."
+        )
+        return {"response": response.text}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
+

@@ -22,6 +22,7 @@ import appointmentRoutes from './routes/appointmentRoutes.js';
 import biometricRoutes from './routes/biometricRoutes.js';
 import aiRoutes from './routes/aiRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import paymentRoutes from './routes/paymentRoutes.js';
 
 // Load environment variables
 dotenv.config();
@@ -73,6 +74,7 @@ app.use('/api/appointments', appointmentRoutes);
 app.use('/api/biometrics', biometricRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/payment', paymentRoutes);
 
 // Serve uploads folder as static
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

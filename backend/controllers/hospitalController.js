@@ -131,3 +131,73 @@ export const getHospitalDetails = asyncHandler(async (req, res) => {
     });
   }
 });
+
+export const searchHospitals = asyncHandler(async (req, res) => {
+  const { q } = req.query;
+
+  if (!q) {
+    return res.status(400).json({ success: false, message: 'Search query is required' });
+  }
+
+  const mockHospitals = [
+    {
+      id: 'mock-1',
+      name: 'City General Hospital',
+      address: '123 Health Ave',
+      rating: 4.8,
+      types: ['hospital']
+    },
+    {
+      id: 'mock-2',
+      name: 'St. Jude Medical Center',
+      address: '456 Wellness Blvd',
+      rating: 4.6,
+      types: ['hospital']
+    },
+    {
+      id: 'mock-3',
+      name: 'Hope Regional Clinic',
+      address: '789 Care Lane',
+      rating: 4.5,
+      types: ['hospital']
+    }
+  ].filter(h => h.name.toLowerCase().includes(q.toLowerCase()));
+
+  try {
+    const response = await axios.get(
+      'https://maps.googleapis.com/maps/api/place/textsearch/json',
+      {
+        params: {
+          query: q + ' hospital',
+          key: process.env.GOOGLE_PLACES_API_KEY,
+        },
+      }
+    );
+
+    if (response.data.status === 'REQUEST_DENIED' || response.data.status === 'ZERO_RESULTS') {
+      return res.status(200).json({
+        success: true,
+        hospitals: mockHospitals
+      });
+    }
+
+    const hospitals = response.data.results.map((place) => ({
+      id: place.place_id,
+      name: place.name,
+      address: place.formatted_address,
+      rating: place.rating || 'N/A',
+      types: place.types,
+    }));
+
+    res.status(200).json({
+      success: true,
+      hospitals,
+    });
+  } catch (error) {
+    console.warn('Error during text search API:', error.message);
+    res.status(200).json({
+      success: true,
+      hospitals: mockHospitals
+    });
+  }
+});

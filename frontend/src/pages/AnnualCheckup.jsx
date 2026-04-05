@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiCheckCircle, FiActivity, FiShield, FiCalendar, FiClock, FiFileText, FiThermometer, FiHeart } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const packages = [
   {
@@ -42,9 +44,55 @@ const AnnualCheckup = () => {
   const handleNext = () => setStep(prev => prev + 1);
   const handleBack = () => setStep(prev => prev - 1);
 
-  const handleConfirm = () => {
-    // In a real app, send to backend API
-    setStep(4);
+  const handleConfirm = async () => {
+    try {
+      if (!selectedPackage) return;
+      const amountStr = selectedPackage.price.replace('$', '').replace(/,/g, '');
+      const amount = Number(amountStr);
+
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      const orderRes = await axios.post(`${apiUrl}/payment/create-order`, { amount });
+
+      const options = {
+        key: orderRes.data.key,
+        amount: orderRes.data.order.amount,
+        currency: "USD", // Example: keeping currency as per selectedPackage.price ($). In prod, standardise to INR/USD.
+        name: "MediAccess Network",
+        description: `Check-up package: ${selectedPackage.title}`,
+        order_id: orderRes.data.order.id,
+        handler: async function (response) {
+          try {
+            await axios.post(`${apiUrl}/payment/verify`, {
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature
+            });
+            // Payment successful
+            toast.success('Payment verified successfully!');
+            setStep(4);
+          } catch (err) {
+            toast.error('Payment verification failed.');
+          }
+        },
+        prefill: {
+          // If we have user details from a context we'd populate them here
+          name: "Patient Name",
+          email: "patient@example.com",
+          contact: "9999999999"
+        },
+        theme: {
+          color: "#10b981"
+        }
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.on('payment.failed', function (response){
+        toast.error('Payment failed!');
+      });
+      rzp.open();
+    } catch (error) {
+      toast.error('Could not initiate payment. Please try again later.');
+    }
   };
 
   return (

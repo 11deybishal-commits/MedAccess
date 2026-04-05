@@ -1,6 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { FiMenu, FiX, FiLogOut, FiUser, FiSearch, FiSettings } from 'react-icons/fi';
+import { FiMenu, FiX, FiLogOut, FiUser, FiSearch, FiSettings, FiMapPin } from 'react-icons/fi';
 import { GiCaduceus } from 'react-icons/gi';
 import { AuthContext } from '../context/AuthContext.jsx';
 import '../styles/navbar.css';
@@ -8,15 +8,56 @@ import '../styles/navbar.css';
 const Navbar = ({ onMenuToggle }) => {
   const { user, logout, isAuthenticated } = useContext(AuthContext);
   const [searchValue, setSearchValue] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
   const isHospitalAdmin = user?.role === 'hospital_admin';
+
+  useEffect(() => {
+    const fetchSearch = async () => {
+      if (!searchValue.trim()) {
+        setSearchResults([]);
+        setShowDropdown(false);
+        return;
+      }
+      setIsSearching(true);
+      setShowDropdown(true);
+      try {
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+        const res = await fetch(`${apiUrl}/hospitals/search?q=${searchValue}`);
+        const data = await res.json();
+        setSearchResults(data.hospitals || []);
+      } catch (err) {
+        console.error('Search error:', err);
+      } finally {
+        setIsSearching(false);
+      }
+    };
+    
+    const timeoutId = setTimeout(fetchSearch, 300);
+    return () => clearTimeout(timeoutId);
+  }, [searchValue]);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchValue.trim()) {
       navigate(`/search?q=${searchValue}`);
       setSearchValue('');
+      setShowDropdown(false);
     }
   };
 
@@ -38,18 +79,55 @@ const Navbar = ({ onMenuToggle }) => {
           </Link>
         </div>
 
-        <form onSubmit={handleSearch} className="hidden lg:flex flex-1 max-w-md mx-8">
+        <form onSubmit={handleSearch} className="hidden lg:flex flex-1 max-w-md mx-8" ref={dropdownRef}>
           <div className="relative w-full">
             <input
               type="text"
               placeholder="Search hospitals, pharmacies..."
               value={searchValue}
               onChange={e => setSearchValue(e.target.value)}
+              onFocus={() => { if(searchValue.trim()) setShowDropdown(true); }}
               className="w-full px-4 py-2 bg-slate-100 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent font-body text-sm"
             />
             <button type="submit" className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-primary">
-              <FiSearch />
+              {isSearching ? <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin"></div> : <FiSearch />}
             </button>
+            
+            {/* Live Search Dropdown */}
+            {showDropdown && (
+              <div className="absolute top-12 left-0 w-full bg-white dark:bg-slate-800 rounded-xl shadow-2xl border border-slate-100 dark:border-slate-700 overflow-hidden z-50">
+                {isSearching ? (
+                  <div className="p-4 text-center text-slate-500 text-sm">Searching...</div>
+                ) : searchResults.length > 0 ? (
+                  <ul className="max-h-80 overflow-y-auto">
+                    {searchResults.map((item) => (
+                      <li key={item.id} className="border-b border-slate-100 dark:border-slate-700 last:border-0 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                        <button 
+                          type="button"
+                          className="w-full text-left p-3 flex flex-col gap-1 focus:outline-none"
+                          onClick={() => {
+                            if (item.lat && item.lng) {
+                              navigate(`/hospitals?lat=${item.lat}&lng=${item.lng}`);
+                            } else {
+                              navigate(`/search?q=${item.name}`);
+                            }
+                            setShowDropdown(false);
+                            setSearchValue('');
+                          }}
+                        >
+                          <div className="font-bold text-slate-800 dark:text-white truncate">{item.name}</div>
+                          <div className="text-xs text-slate-500 flex items-center gap-1 truncate">
+                            <FiMapPin className="shrink-0" /> {item.address}
+                          </div>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                ) : searchValue.trim().length > 0 ? (
+                  <div className="p-4 text-center text-slate-500 text-sm">No exact matches found</div>
+                ) : null}
+              </div>
+            )}
           </div>
         </form>
 

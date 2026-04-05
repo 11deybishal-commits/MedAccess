@@ -5,7 +5,6 @@ import { playSound } from '../utils/soundEffects';
 
 const InteractiveOrganViewer = () => {
   const [currentOrganIndex, setCurrentOrganIndex] = useState(0);
-  const [isSpeaking, setIsSpeaking] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [rotationX, setRotationX] = useState(0);
   const [rotationY, setRotationY] = useState(0);
@@ -181,16 +180,7 @@ const InteractiveOrganViewer = () => {
     console.log('Current Organ:', currentOrgan);
   }, [currentOrganIndex, currentOrgan]);
 
-  // Text-to-speech
-  useEffect(() => {
-    if (isSpeaking && !isMuted) {
-      playSound('notification');
-      const utterance = new SpeechSynthesisUtterance(currentOrgan.explanation);
-      utterance.rate = 0.9;
-      window.speechSynthesis.speak(utterance);
-      return () => window.speechSynthesis.cancel();
-    }
-  }, [isSpeaking, currentOrgan, isMuted]);
+
 
   const handleNext = () => {
     try {
@@ -199,7 +189,6 @@ const InteractiveOrganViewer = () => {
       console.error('Sound error:', e);
     }
     setCurrentOrganIndex((prev) => (prev + 1) % organs.length);
-    setIsSpeaking(false);
   };
 
   const handlePrev = () => {
@@ -209,7 +198,6 @@ const InteractiveOrganViewer = () => {
       console.error('Sound error:', e);
     }
     setCurrentOrganIndex((prev) => (prev - 1 + organs.length) % organs.length);
-    setIsSpeaking(false);
   };
 
   return (
@@ -295,30 +283,7 @@ const InteractiveOrganViewer = () => {
               </p>
             </div>
 
-            {/* Button with speakers */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => {
-                try {
-                  if (!isMuted) playSound('notification');
-                } catch (e) {
-                  console.error('Sound error:', e);
-                }
-                setIsSpeaking(!isSpeaking);
-              }}
-              className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold rounded-xl transition-all"
-            >
-              {isSpeaking ? (
-                <>
-                  <FiVolumeX /> Stop Explanation
-                </>
-              ) : (
-                <>
-                  <FiVolume2 /> Listen to Explanation
-                </>
-              )}
-            </motion.button>
+
 
             {/* Sound control */}
             <button
@@ -412,7 +377,6 @@ const InteractiveOrganViewer = () => {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => {
                   setCurrentOrganIndex(idx);
-                  setIsSpeaking(false);
                 }}
                 className={`p-4 rounded-2xl transition-all text-2xl ${
                   idx === currentOrganIndex
@@ -426,19 +390,7 @@ const InteractiveOrganViewer = () => {
           })}
         </motion.div>
 
-        {/* Full Explanation */}
-        {isSpeaking && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mt-8 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30 rounded-2xl p-8"
-          >
-            <h3 className="text-white font-bold mb-4 text-lg">📖 Full Explanation</h3>
-            <p className="text-slate-300 leading-relaxed text-justify">
-              {currentOrgan.explanation}
-            </p>
-          </motion.div>
-        )}
+
       </div>
     </div>
   );

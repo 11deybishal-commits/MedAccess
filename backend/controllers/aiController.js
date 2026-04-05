@@ -122,3 +122,29 @@ export const analyzeReport = async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 };
+
+// @desc    Chat with AI medical assistant
+// @route   POST /api/ai/chat
+// @access  Public or Private
+export const chatWithAI = async (req, res) => {
+    try {
+        const { message } = req.body;
+        if (!message) {
+            return res.status(400).json({ success: false, message: 'Message is required' });
+        }
+        
+        const response = await axios.post(`${AI_SERVICE_URL}/chat`, { message });
+        
+        res.status(200).json({
+            success: true,
+            response: response.data.response
+        });
+    } catch (error) {
+        console.error('AI Chat Error:', error.message);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Failed to communicate with AI chat service.',
+            error: error.message 
+        });
+    }
+};
