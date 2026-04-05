@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaPlus, FaTimes, FaSearch, FaStethoscope } from 'react-icons/fa';
+import { FaPlus, FaTimes, FaSearch, FaStethoscope, FaLock } from 'react-icons/fa';
+import { AuthContext } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const SymptomChecker = () => {
+    const { isAuthenticated, token } = useContext(AuthContext);
+    const navigate = useNavigate();
     const [symptoms, setSymptoms] = useState([]);
     const [inputValue, setInputValue] = useState('');
     const [results, setResults] = useState(null);
@@ -33,10 +37,14 @@ const SymptomChecker = () => {
     const handleDiagnose = async () => {
         if (symptoms.length === 0) return;
         
+        if (!isAuthenticated) {
+            setError("You must be logged in to use the AI Symptom Checker.");
+            return;
+        }
+
         setLoading(true);
         setError(null);
         try {
-            const token = localStorage.getItem('token');
             const baseUrl = import.meta.env.VITE_API_URL?.replace(/\/api$/, '') || 'http://localhost:5000';
             const response = await axios.post(`${baseUrl}/api/ai/diagnose`, 
                 { symptoms },
@@ -127,25 +135,39 @@ const SymptomChecker = () => {
                 </div>
             )}
 
-            {/* Diagnose Button */}
-            <button
-                onClick={handleDiagnose}
-                disabled={loading || symptoms.length === 0}
-                className={`w-full py-4 rounded-xl flex items-center justify-center space-x-2 font-bold transition-all shadow-xl ${
-                    loading || symptoms.length === 0
-                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                    : 'bg-blue-600 text-white hover:bg-blue-700 shadow-blue-200'
-                }`}
-            >
-                {loading ? (
-                    <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                ) : (
-                    <>
-                        <FaStethoscope />
-                        <span>Diagnose Possible Conditions</span>
-                    </>
-                )}
-            </button>
+            {/* Diagnose Button / Login Prompt */}
+            {!isAuthenticated ? (
+                <div className="p-6 bg-blue-50 border border-blue-100 rounded-2xl text-center">
+                    <FaLock className="mx-auto text-blue-400 text-3xl mb-3" />
+                    <h4 className="text-blue-900 font-bold mb-1">Login Required</h4>
+                    <p className="text-blue-700 text-sm mb-4">Please sign in to access our AI diagnostic tools and get personalized health insights.</p>
+                    <button
+                        onClick={() => navigate('/login')}
+                        className="px-6 py-2.5 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition"
+                    >
+                        Sign In Now
+                    </button>
+                </div>
+            ) : (
+                <button
+                    onClick={handleDiagnose}
+                    disabled={loading || symptoms.length === 0}
+                    className={`w-full py-4 rounded-xl flex items-center justify-center space-x-2 font-bold transition-all shadow-xl ${
+                        loading || symptoms.length === 0
+                        ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                        : 'bg-blue-600 text-white hover:bg-blue-700 shadow-blue-200'
+                    }`}
+                >
+                    {loading ? (
+                        <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    ) : (
+                        <>
+                            <FaStethoscope />
+                            <span>Diagnose Possible Conditions</span>
+                        </>
+                    )}
+                </button>
+            )}
 
             {/* Results Display */}
             {results && (

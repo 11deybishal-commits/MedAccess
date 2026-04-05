@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { FaCloudUploadAlt, FaFileMedical, FaExclamationCircle, FaCheckCircle, FaRobot, FaVolumeUp } from 'react-icons/fa';
+import { FaCloudUploadAlt, FaFileMedical, FaExclamationCircle, FaCheckCircle, FaRobot, FaVolumeUp, FaLock } from 'react-icons/fa';
 import { playSound } from '../utils/soundEffects';
+import { AuthContext } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const ReportAnalyzer = () => {
+    const { isAuthenticated, token } = useContext(AuthContext);
+    const navigate = useNavigate();
     const [file, setFile] = useState(null);
     const [analysis, setAnalysis] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -20,6 +24,11 @@ const ReportAnalyzer = () => {
     const handleUpload = async () => {
         if (!file) return;
 
+        if (!isAuthenticated) {
+            setError("You must be logged in to analyze medical reports.");
+            return;
+        }
+
         const formData = new FormData();
         formData.append('file', file);
 
@@ -31,8 +40,7 @@ const ReportAnalyzer = () => {
             console.error('Sound error:', e);
         }
         try {
-            const token = localStorage.getItem('token');
-            const baseUrl = import.meta.env.VITE_API_URL?.replace(/\/api$/, '') || 'http://localhost:5001';
+            const baseUrl = import.meta.env.VITE_API_URL?.replace(/\/api$/, '') || 'http://localhost:5000';
             const response = await axios.post(`${baseUrl}/api/ai/analyze-report`, 
                 formData,
                 { headers: { 
@@ -123,25 +131,39 @@ const ReportAnalyzer = () => {
                 </div>
             )}
 
-            {/* Analyze Button */}
-            <button
-                onClick={handleUpload}
-                disabled={loading || !file}
-                className={`w-full py-4 rounded-xl flex items-center justify-center space-x-3 font-bold transition-all shadow-xl ${
-                    loading || !file
-                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                    : 'bg-blue-600 text-white hover:bg-blue-700 shadow-blue-200'
-                }`}
-            >
-                {loading ? (
-                    <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                ) : (
-                    <>
-                        <FaRobot className="text-xl" />
-                        <span>Perform AI Analysis</span>
-                    </>
-                )}
-            </button>
+            {/* Analyze Button / Login Prompt */}
+            {!isAuthenticated ? (
+                <div className="p-8 bg-blue-50 border border-blue-100 rounded-3xl text-center">
+                    <FaLock className="mx-auto text-blue-400 text-3xl mb-4" />
+                    <h4 className="text-blue-900 font-bold mb-2">Login Required</h4>
+                    <p className="text-blue-700 text-sm mb-6">Please sign in to upload and analyze your medical reports with our AI engine.</p>
+                    <button
+                        onClick={() => navigate('/login')}
+                        className="px-8 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-200"
+                    >
+                        Sign In to MediAccess
+                    </button>
+                </div>
+            ) : (
+                <button
+                    onClick={handleUpload}
+                    disabled={loading || !file}
+                    className={`w-full py-4 rounded-xl flex items-center justify-center space-x-3 font-bold transition-all shadow-xl ${
+                        loading || !file
+                        ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                        : 'bg-blue-600 text-white hover:bg-blue-700 shadow-blue-200'
+                    }`}
+                >
+                    {loading ? (
+                        <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    ) : (
+                        <>
+                            <FaRobot className="text-xl" />
+                            <span>Perform AI Analysis</span>
+                        </>
+                    )}
+                </button>
+            )}
 
             {/* Analysis Results Container */}
             {analysis && (
